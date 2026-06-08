@@ -34,9 +34,10 @@ var ErrObjectRateLimited = errors.New("object access rate limited")
 type Provider string
 
 const (
-	GCPStorageProvider   Provider = "GCPBucket"
-	AWSStorageProvider   Provider = "AWSBucket"
-	LocalStorageProvider Provider = "Local"
+	GCPStorageProvider      Provider = "GCPBucket"
+	AWSStorageProvider      Provider = "AWSBucket"
+	AlibabaCloudStorageProvider Provider = "AlibabaCloudBucket"
+	LocalStorageProvider    Provider = "Local"
 
 	DefaultStorageProvider Provider = GCPStorageProvider
 
@@ -256,6 +257,8 @@ func GetStorageProvider(ctx context.Context, cfg StorageConfig) (StorageProvider
 	switch provider {
 	case AWSStorageProvider:
 		return newAWSStorage(ctx, bucketName)
+	case AlibabaCloudStorageProvider:
+		return newAlibabaCloudStorage(ctx, bucketName)
 	case GCPStorageProvider:
 		return NewGCP(ctx, bucketName, cfg.limiter)
 	}

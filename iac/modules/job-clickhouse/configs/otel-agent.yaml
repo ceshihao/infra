@@ -50,6 +50,16 @@ processors:
         host.name:
           enabled: true
 %{ endif }
+%{ if provider_name == "alicloud" }
+    detectors: [system]
+    override: true
+    system:
+      resource_attributes:
+        host.id:
+          enabled: true
+        host.name:
+          enabled: true
+%{ endif }
 
   transform/set-name:
     metric_statements:
@@ -57,6 +67,9 @@ processors:
       - set(datapoint.attributes["service.instance.id"], resource.attributes["gcp.gce.instance.name"])
 %{ endif }
 %{ if provider_name == "aws" }
+      - set(datapoint.attributes["service.instance.id"], resource.attributes["host.name"])
+%{ endif }
+%{ if provider_name == "alicloud" }
       - set(datapoint.attributes["service.instance.id"], resource.attributes["host.name"])
 %{ endif }
 

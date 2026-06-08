@@ -58,6 +58,14 @@ job "clickhouse-backup" {
         S3_REGION      = "${aws_region}"
         S3_PATH        = "${backup_folder}/backup/server-${i + 1}/"
 %{ endif }
+%{ if cloud_provider == "alicloud" }
+        REMOTE_STORAGE      = "s3"
+        S3_BUCKET           = "${backup_bucket}"
+        S3_REGION           = "${aws_region}"
+        S3_ENDPOINT         = "https://oss-${aws_region}-internal.aliyuncs.com"
+        S3_FORCE_PATH_STYLE = "true"
+        S3_PATH             = "${backup_folder}/backup/server-${i + 1}/"
+%{ endif }
       }
 
       resources {

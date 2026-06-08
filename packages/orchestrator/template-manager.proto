@@ -50,12 +50,23 @@ message GeneralRegistry {
   string password = 2;
 }
 
+// AlibabaCloud Container Registry (ACR) Enterprise Edition authentication.
+// Personal-edition ACR (no instance_id) is not supported in production because
+// it lacks VPC-private endpoints and short-lived credentials.
+message AlibabaCloudRegistry {
+  string accessKeyId = 1;
+  string accessKeySecret = 2;
+  string region = 3;       // e.g. cn-hangzhou
+  string instanceId = 4;   // cr-cn-xxxx, required for Enterprise Edition
+}
+
 // Docker registry authentication configuration
 message FromImageRegistry {
   oneof type {
     AWSRegistry aws = 1;
     GCPRegistry gcp = 2;
     GeneralRegistry general = 3;
+    AlibabaCloudRegistry alibabacloud = 4;
   }
 }
 

@@ -27,6 +27,8 @@ func NewAuthProvider(registry *templatemanager.FromImageRegistry) RegistryAuthPr
 		return NewGCPAuthProvider(auth.Gcp)
 	case *templatemanager.FromImageRegistry_General:
 		return NewGeneralAuthProvider(auth.General)
+	case *templatemanager.FromImageRegistry_Alibabacloud:
+		return NewAlibabaCloudACRAuthProvider(auth.Alibabacloud)
 	default:
 		return nil
 	}

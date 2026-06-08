@@ -386,6 +386,16 @@ processors:
         host.id:
           enabled: false
 %{ endif }
+%{ if provider_name == "alicloud" }
+    detectors: [system]
+    override: true
+    system:
+      resource_attributes:
+        host.name:
+          enabled: true
+        host.id:
+          enabled: true
+%{ endif }
 
 %{ if provider_name == "gcp" && enable_gcp_telemetry_metrics }
   resourcedetection/gcp_telemetry:
